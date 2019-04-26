@@ -44,6 +44,43 @@ public class LinkedList<T> {
 	
 	public void add(T item, int index) {
 		//add item to specific index location
+		// Takes the index value and removes the Node
+		int counter = 0;
+		Node<T> previous = head;
+				
+		if(this.head==null) {
+			System.out.println("Created new Head node");
+			this.add(item);
+			return;
+		}
+		
+		//Set new node as head node
+		if(index == counter) {
+			Node<T> new_node = new Node(item);
+			new_node.setNext(previous);
+			this.head = new_node;
+			previous = this.head;
+			return;
+		}
+				
+		Node<T> current = head.getNext();
+				
+		while(index != counter) {
+			
+			counter+=1;
+			
+			if(index == counter) {
+				Node<T> new_node = new Node(item);
+				Node<T> next_value = current.getNext();
+				previous.setNext(new_node);
+				new_node.setNext(current);
+				current = new_node;
+				return;
+			}
+			previous = current;
+			current = current.getNext();
+		}
+		return;
 	}
 	
 	
@@ -157,6 +194,7 @@ public class LinkedList<T> {
 		
 		if(index == counter) {
 			this.head = null;
+			return;
 		}
 		
 		Node<T> current = head.getNext();

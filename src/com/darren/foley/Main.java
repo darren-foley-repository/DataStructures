@@ -82,7 +82,7 @@ public class Main {
 		*/
 		
 		// Test 5
-		
+		/*
 		Integer[] n = new Integer[] {1,2,3,4,5,6};
 		LinkedList<Integer> lst = new LinkedList<Integer>(n);
 		
@@ -101,7 +101,26 @@ public class Main {
 		System.out.println("");
 		
 		lst.print();
+		*/
 		
+		// Test 6
+		
+		Integer[] n = new Integer[] {1,2,3,4,5,6};
+		LinkedList<Integer> lst = new LinkedList<Integer>(n);
+		
+		lst.print();
+		
+		System.out.println("");
+		
+		lst.add(10, 1);
+		
+		lst.print();
+		
+		System.out.println("");
+		
+		lst.add(100, 4);
+		
+		lst.print();
 	}
 
 }
