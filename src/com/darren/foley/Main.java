@@ -6,6 +6,7 @@ import com.darren.foley.LinkedList;
 public class Main {
 
 	public static void main(String[] args) {
+		/*
 		LinkedList<String> string_list = new LinkedList<String>();
 		
 		string_list.add("Darren");
@@ -17,6 +18,28 @@ public class Main {
 		
 		
 		string_list.print();
+		
+		string_list.remove();
+		string_list.remove();
+		string_list.remove();
+		
+		System.out.println("");
+		
+		string_list.print();
+		
+		string_list.add("Strings here 5");
+		
+		System.out.println("");
+		
+		string_list.print();
+		*/
+		LinkedList<Integer> int_list = new LinkedList<Integer>();
+		
+		int_list.getLastItem();
+		
+		int_list.add(4);
+		
+		System.out.println(int_list.getLastItem().getData());
 	}
 
 }
