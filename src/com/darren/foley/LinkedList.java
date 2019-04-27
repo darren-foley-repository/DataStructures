@@ -1,215 +1,226 @@
 package com.darren.foley;
 
-/*import com.darren.foley.Node;*/
 
 public class LinkedList<T> {
 
-	public Node<T> head;
-	
+	private Node<T> head;
+	private int total_counter;
 	
 	public LinkedList() {
 		//Empty Constructor
-		System.out.println("Empty Linked list");
 	}
-	
 	
 	public LinkedList(T[] array) {
 		Node<T> previous = null;
 		Node<T> current;
 		for(int i=0; i < array.length; i++) {
 			if(i==0) {
-				this.head = new Node(array[i]);
+				this.head = new Node<T>(array[i]);
 				previous = this.head;
+				this.incrementTotalCounter();
 				continue;
 			}
-			current = new Node(array[i]);
+			current = new Node<T>(array[i]);
 			previous.setNext(current);
+			this.incrementTotalCounter();
 			previous = current;
 		}
+	}
+	
+	private int getTotalCounter() {
+		return this.total_counter;
+	}
+	
+	private void incrementTotalCounter() {
+		this.total_counter++;
+	}
+	
+	private void decrementTotalCounter() {
+		this.total_counter--;
+	}
+	
+	public int size() {
+		return this.getTotalCounter();
+	}
+	
+	public String toString() {
+		String result = "";
+		
+		if(this.head!=null) {
+			Node<T> current = this.head.getNext();
+			while(current != null) {
+				result += "("+ current.getData().toString() + "), ";
+				current = current.getNext();
+			}
+		}
+		return result;
 	}
 	
 	
 	public void add(T item) {
 		// Add to the end of the list
-		Node<T> new_node = new Node(item);
-		// If the linked_list is empty
+		Node<T> new_node = new Node<T>(item);
+		
 		if(this.head == null){
 			this.head = new_node;
 		}
 		else {
 			this.getLastItem().setNext(new_node);
 		}
+		this.incrementTotalCounter();
 	}
 	
 	
-	public void add(T item, int index) {
+	public boolean add(T item, int index) {
 		//add item to specific index location
 		// Takes the index value and removes the Node
-		int counter = 0;
-		Node<T> previous = head;
-				
-		if(this.head==null) {
-			System.out.println("Created new Head node");
-			this.add(item);
-			return;
+		//Index out of Range
+		if(index < 0 || index > this.size()) {
+			return false;
 		}
 		
-		//Set new node as head node
-		if(index == counter) {
-			Node<T> new_node = new Node(item);
-			new_node.setNext(previous);
-			this.head = new_node;
-			previous = this.head;
-			return;
+		Node<T> current = this.head;
+		
+		if(current==null) {
+			this.add(item);
+			return true;
 		}
-				
-		Node<T> current = head.getNext();
-				
-		while(index != counter) {
-			
-			counter+=1;
-			
-			if(index == counter) {
-				Node<T> new_node = new Node(item);
-				Node<T> next_value = current.getNext();
-				previous.setNext(new_node);
-				new_node.setNext(current);
-				current = new_node;
-				return;
+		
+		else if(current != null) {
+			Node<T> new_node = new Node<T>(item);
+			for(int i = 0; i < this.size(); i++) {
+				if(i == 0 && i == index) {
+					new_node.setNext(current);
+					current.setNext(null);
+					this.incrementTotalCounter();
+					return true;
+				}
+				else if (i == index-1) {
+					new_node.setNext(current.getNext());
+					current.setNext(new_node);
+					this.incrementTotalCounter();
+					return true;
+				}
+				current = current.getNext();
 			}
-			previous = current;
-			current = current.getNext();
 		}
-		return;
+		return false;
 	}
 	
 	
 	public Node<T> getLastItem() {
-		Node<T> previous = head;
-		if(previous == null) {
-			System.out.println("No items in the list!");
+		Node<T> current = this.head;
+		if(current == null) {
 			return null;
 		}
-		Node<T> current = head.getNext();
-		if(current == null){
-			return head;
-		}
-		while(true) {
-			if(current.getNext() == null) {
-				return current;
+		
+		if(current != null) {
+			while(current.getNext() != null) {
+				current = current.getNext();
 			}
-			previous = current;
-			current = current.getNext();
 		}
+		return current;
 	}
 	
 	
 	public Node<T> get(int index){
-		int counter = 0;
-		Node<T> previous = head;
-		if(head == null) {
-			System.out.println("Empty List");
+		
+		//Index out of Range
+		if(index < 0 || index > this.size()) {
 			return null;
 		}
-		Node<T> current = head.getNext();
 		
-		if(index==0) {
-			return head;
-		}
+		Node<T> current = this.head;
 		
-		while(index != counter) {
-			counter+=1;
-			if(index == counter) {
-				return current;
+		if(current != null) {
+			for(int i = 0; i < this.size(); i++) {
+				if(i == index) {
+					return current;
+				}
+				current = current.getNext();
 			}
-			previous = current;
-			current = current.getNext();
 		}
-		System.out.println("Error, Something went wrong!");
-		return null;
+		return current;
 	}
 	
 	
 	public void print() {
-		Node<T> previous = head;
-		Node<T> current = head.getNext();
+		Node<T> current = this.head;
 		if(current == null) {
-			System.out.println(head.getData());
-			return;
-		}
-		else {
-			System.out.println(head.getData());
+			System.out.println("Empty Linked-List");
 		}
 		
-		while(true) {
-			System.out.println(current.getData());
-			
-			previous = current;
-			current = current.getNext();
-			
-			if(current == null) {
-				return;
+		else if(current != null) {
+			while(true) {
+				System.out.println(current.getData());
+				current = current.getNext();
+				if(current == null) {
+					break;
+				}
 			}
+			
 		}
 	}
 	
 	
-	public void remove() {
+	public boolean remove() {
 		// With no argument it will remove the last Node in the list
 		// Get second last item in list and point to null
-		Node<T> previous = head;
+		Node<T> current = this.head;
 		
-		if(previous == null) {
+		if(current == null) {
 			System.out.println("The list is empty!");
-			return;
-		}
-		// Delete list with only one node
-		Node<T> current = head.getNext();
-		
-		if(current == null){
-			this.head = null;
-			return;
+			return false;
 		}
 		
-		while(true) {
-			if(current.getNext() == null) {
-				previous.setNext(null);
-				return;
+		else if(current != null) {
+			while(current.getNext() != null) {
+				if(current.getNext().getNext() == null) {
+					current.setNext(null);
+					this.decrementTotalCounter();
+					return true;
+				}
+				current = current.getNext();
 			}
-			previous = current;
-			current = current.getNext();
 		}
+		current = null;
+		this.decrementTotalCounter();
+		return true;
 	}
 	
 	
-	public void remove(int index) {
+	public boolean remove(int index) {
 		// Takes the index value and removes the Node
-		int counter = 0;
-		Node<T> previous = head;
+		Node<T> previous = null;
+		Node<T> current = this.head;
 		
-		if(this.head==null) {
-			System.out.println("No nodes to remove");
-			return;
+		// If index out of range (Can't remove head node)
+		if(index < 0 || index > this.size()) {
+			return false;
 		}
 		
-		if(index == counter) {
-			this.head = null;
-			return;
+		if(current==null) {
+			// No nodes to remove
+			return false;
 		}
 		
-		Node<T> current = head.getNext();
-		
-		while(index != counter) {
-			counter+=1;
-			if(index == counter) {
-				Node<T> next_value = current.getNext();
-				previous.setNext(next_value);
-				current.setNext(null);
-				return;
+		else if(current != null) {
+			for(int i=0; i < this.size(); i++) {
+				if(i == index && i == 0) {
+					current = null;
+					this.decrementTotalCounter();
+					return true;
+				}
+				else if(i == index) {
+					previous.setNext(current.getNext());
+					current.setNext(null);
+					this.decrementTotalCounter();
+					return true;
+				}
+				previous = current;
+				current = current.getNext();
 			}
-			previous = current;
-			current = current.getNext();
 		}
-		return;
+		return false;
 	}
 }

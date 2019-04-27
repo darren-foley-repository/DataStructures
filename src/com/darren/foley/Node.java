@@ -15,6 +15,10 @@ public class Node<T> {
 		this.data = dataField;
 	}
 	
+	public String toString() {
+		return this.data.toString();
+	}
+	
 	public T getData() {
 		return this.data;
 	}
