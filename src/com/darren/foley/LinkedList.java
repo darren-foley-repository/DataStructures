@@ -11,19 +11,18 @@ public class LinkedList<T> {
 	}
 	
 	public LinkedList(T[] array) {
-		Node<T> previous = null;
-		Node<T> current;
+		Node<T> current = null;
 		for(int i=0; i < array.length; i++) {
 			if(i==0) {
 				this.head = new Node<T>(array[i]);
-				previous = this.head;
+				current = this.head;
 				this.incrementTotalCounter();
 				continue;
 			}
-			current = new Node<T>(array[i]);
-			previous.setNext(current);
+			Node<T> new_node = new Node<T>(array[i]);
+			current.setNext(new_node);
+			current = new_node;
 			this.incrementTotalCounter();
-			previous = current;
 		}
 	}
 	
